@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title class="title">PromptPix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="context"></div>
+    
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+    </ul>
+    <div >
+        <h1 class="webName"><a  rel="dofollow">PromptPix</a></h1>
+        <div class="dark-mode-toggle" onclick="toggleDarkMode()"></div>
+    </div>
+    <div class="form_body">
+        <form method="post" class="form__group ">
+            <input type="text" autocomplete="off" class="form__field" id="input_text" name="input_text" placeholder="Enter your prompt">
+
+            <button type="submit" class="button-17">Generate</button>
+        </form>
+    </div>
+    <div id="loading" style="display: none;">
+        <div class="loader"></div>
+        <p>Generating image...</p>
+    </div>
+    {% if image_data %}
+        <div class="generated-section">
+            <h2 class="heading-h2">Generated Image:</h2>
+            <img src="data:image/jpeg;base64,{{ image_data }}" alt="Generated Image" class="generated-image">
+            <button id="saveButton" class="save-button">Save Image</button>
+        </div>
+    {% endif %}
+   
+    
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+
+        const loadingDiv = document.getElementById("loading");
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+            loadingDiv.style.display = "flex";
+            form.submit();
+        });
+
+        document.getElementById("saveButton").addEventListener("click", function() {
+            const imageSrc = document.querySelector(".generated-image").src;
+            const link = document.createElement("a");
+            link.href = imageSrc;
+            link.download = "generated_image.jpg";
+            link.click();
+        });
+    </script>
+    </script>
+</body>
+</html>
